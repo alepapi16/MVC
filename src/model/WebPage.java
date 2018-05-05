@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.SecurityException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,8 +24,13 @@ import java.util.List;
  * The class belongs to the model layer, and can notify its observers when
  * some relevant event happen (ex: store). 
  *  
- * @author Alessio Papi
+ * The admin password is also stored and required for special things
+ * such as getting/setting the name of the backup file. Notice that the admin is 
+ * not included in the list of users.
+ *
+ * @author Alessio Papi , Gabriele Marcozzi and Carlos Bilbao
  */
+
 public class WebPage implements Observable<Observer> {
 
 	private List<User> users;
@@ -45,10 +51,16 @@ public class WebPage implements Observable<Observer> {
 	private List<Observer> observers;
 	
 	/**
+	* Password of the webpage admin required sometimes
+	*/
+	private String adminPassword;
+	
+	/**
 	 * Constructor
 	 */
-	public WebPage() {
-				
+	public WebPage(String adminPassword) {
+		
+		this.adminPassword = adminPassword;
 		filename = null;
 		users = new ArrayList<>();
 		user_map = new HashMap<>();
@@ -58,16 +70,20 @@ public class WebPage implements Observable<Observer> {
 	/**
 	 * Filename getter
 	 */
-	public String getFilename() {
-		return filename;
+	public String getFilename(String passwd) throws SecurityException  {
+		if (passwd == adminPassword) 
+			return filename;
+		else throw SecurityException;
 	}
 
 	/**
 	 * Method that sets the filename for the backup file
 	 * @param filename
 	 */
-	public void setFilename(String filename) {
-		this.filename = filename;
+	public void setFilename(String filename, String passwd) throws SecurityException  {
+		if(passwd == adminPassword)
+			this.filename = filename; 
+		else throw SecurityException;
 	}
 
 	/**
@@ -118,7 +134,7 @@ public class WebPage implements Observable<Observer> {
 	{
 		User u = new User(username, password, age, email);
 		
-		if(user_map.put(username, password) != null)
+			if(user_map.put(username, password) != null)
 			for(User user : users)
 				if(user.getUsername().equals(u.getUsername())) {
 					users.remove(user);
