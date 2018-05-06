@@ -80,7 +80,7 @@ public class MainWindow  extends JFrame implements Observer {
 				
 				if(!_usrArea.getText().equals("") && !_psswArea.getText().equals("") && !_ageArea.getText().equals("") 
 						&& !_emailArea.getText().equals("") && !_filenameArea.getText().equals("")) 
-					ctrl.store(/*PARAMS*/); //Carlos, you should define something like a store method in the controller
+					_ctrl.registerUser(_usrArea.getText(), _psswArea.getText(), Integer.parseInt(_ageArea.getText()), _emailArea.getText());
 				else {
 					_done.setText("Please fill all the fields");
 					_done.setVisible(true);
@@ -109,5 +109,6 @@ public class MainWindow  extends JFrame implements Observer {
 		else
 			System.out.println("Something went wrong while storing the data.");
 	}
+	
 
 }

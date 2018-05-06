@@ -6,11 +6,14 @@ import control.Controller;
 import model.WebPage;
 import view.MainWindow;
 
+// authors Alessio Papi , Gabriele Marcozzi and Carlos Bilbao
+
 public class Main {
 
 	public static void main(String[] args) {
-		WebPage wp = new WebPage();
-		Controller ctrl = new Controller();
+		String adminPass = "adminPsswd";
+		WebPage wp = new WebPage(adminPass);
+		Controller ctrl = new Controller(wp, adminPass);
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			

@@ -73,7 +73,7 @@ public class WebPage implements Observable<Observer> {
 	public String getFilename(String passwd) throws SecurityException  {
 		if (passwd == adminPassword) 
 			return filename;
-		else throw SecurityException;
+		else throw new SecurityException();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class WebPage implements Observable<Observer> {
 	public void setFilename(String filename, String passwd) throws SecurityException  {
 		if(passwd == adminPassword)
 			this.filename = filename; 
-		else throw SecurityException;
+		else throw new SecurityException();
 	}
 
 	/**
